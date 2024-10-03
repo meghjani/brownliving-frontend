@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+    height: 100%;
+}
+
+body, span {
+    margin: 0;
+    font-family: Montserrat;
+}
+
+.container {
+    margin: 50px;
+}
+
+.backdropBackground {
+    background-color: #bbbbbbf2;
+    backdrop-filter: blur(4px);
+}
+
+button {
+    border-radius: 10px;
+    width: 100px;
+    height: 35px;
+    text-align: center;
+    background-color: white;
+}

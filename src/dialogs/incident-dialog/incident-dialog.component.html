@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>Incident #{{data.value.id}}</h2>
+<mat-dialog-content>
+    <mat-grid-list cols="2" rowHeight="3:1">
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Title</mat-label>
+                <input [disabled]="data.adminUser" matInput [(ngModel)]="title" />
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <textarea [disabled]="data.adminUser" matInput [(ngModel)]="description"></textarea>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Priority</mat-label>
+                <mat-select [disabled]="data.adminUser" [(ngModel)]="priority">
+                    <mat-option value="Low">Low</mat-option>
+                    <mat-option value="Medium">Medium</mat-option>
+                    <mat-option value="High">High</mat-option>
+                </mat-select>
+            </mat-form-field>  
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]="status" [disabled]="!data.adminUser">
+                <mat-option value="Open">Open</mat-option>
+                <mat-option value="In-Progress">In-Progress</mat-option>
+                <mat-option value="Resolved">Resolved</mat-option>
+                </mat-select>
+            </mat-form-field>  
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Created At</mat-label>
+                <input matInput [matDatepicker]="created_at" [(ngModel)]="data.value.created_at" disabled>
+                <mat-hint>MM/DD/YYYY (will be auto-filled)</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="created_at"></mat-datepicker-toggle>
+                <mat-datepicker #created_at></mat-datepicker>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Resolved At</mat-label>
+                <input matInput [matDatepicker]="resolved_date" [(ngModel)]="data.value.resolved_date" disabled>
+                <mat-hint>MM/DD/YYYY (will be auto-filled)</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="resolved_date"></mat-datepicker-toggle>
+                <mat-datepicker #resolved_date></mat-datepicker>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button (click)="close()">Close</button>
+  <button mat-raised-button (click)="submit()" cdkFocusInitial>Done</button>
+</mat-dialog-actions>

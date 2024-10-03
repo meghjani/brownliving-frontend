@@ -1,0 +1,75 @@
+<mat-toolbar>
+  <span class="fill-remaining-space">
+    <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" (mouseover)="menuTrigger.openMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <span (mouseleave)="menuTrigger.closeMenu()">
+        <button mat-menu-item (click)="auth.logout({ logoutParams: { returnTo: 'http://localhost:4200/' } })">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </span>
+    </mat-menu>
+  </span>
+  <span class="fill-remaining-space">BrownLiving - Incident reporting</span>
+</mat-toolbar>
+
+<div class="container">
+  <div echarts [options]="chartOption" class="demo-chart"></div>
+
+  <div *ngIf="auth.user$ | async as user" class="welcome-message">
+    <h6>Welcome {{ user.name }}</h6>
+  </div>
+  <!-- TODO: Below condition to be role based -->
+  <button *ngIf="userEmail != 'mj1737+admin@gmail.com'" style="float:right;margin-bottom:10px" mat-raised-button (click)="openDialog({}, 'create')">Create</button>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>  
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>  
+    <!-- Priority Column -->
+    <ng-container matColumnDef="priority">
+      <th mat-header-cell *matHeaderCellDef> Priority </th>
+      <td mat-cell *matCellDef="let element"> {{element.priority}} </td>
+    </ng-container>  
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    </ng-container>  
+    <!-- Created Data Column -->
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef> Created At </th>
+      <td mat-cell *matCellDef="let element"> {{element.created_at | date:'fullDate'}} </td>
+    </ng-container>  
+    <!-- Resolved Data Column -->
+    <ng-container matColumnDef="resolved_date">
+      <th mat-header-cell *matHeaderCellDef> Resolved At </th>
+      <td mat-cell *matCellDef="let element"> {{ (element.resolved_date | date:'fullDate') || "N.A" }} </td>
+    </ng-container>  
+    <!-- Actions Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button (click)="openDialog(element, 'edit')">✏️Edit</button>
+        <!-- TODO: Below condition to be role based -->
+        <button *ngIf="userEmail != 'mj1737+admin@gmail.com'" mat-raised-button (click)="openDialog(element, 'delete')">🗑️Delete</button>
+      </td>
+    </ng-container>  
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>  
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page">
+  </mat-paginator>
+</div>
